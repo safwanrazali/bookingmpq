@@ -1,0 +1,84 @@
+.form {
+  @include card-surface($radius-lg, $shadow-sm);
+  border: 1px solid rgba($color-text, 0.06);
+  padding: $space-4;
+}
+
+.heading {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: $color-text;
+  margin: 0 0 $space-3;
+}
+
+.hint {
+  font-size: 0.875rem;
+  color: $color-text-muted;
+  margin: 0 0 $space-3;
+}
+
+.fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-3;
+
+  @include respond(sm) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+}
+
+.label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: $color-text;
+}
+
+.optional {
+  font-weight: 400;
+  color: $color-text-muted;
+}
+
+.error {
+  font-size: 0.8125rem;
+  color: $color-danger;
+}
+
+.serverError {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-3;
+  border-radius: $radius-md;
+  background: rgba($color-danger, 0.08);
+  color: $color-danger;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.submit {
+  align-self: flex-start;
+  border-radius: $radius-pill;
+  border: none;
+  padding: 0.75rem 2rem;
+  font-weight: 600;
+  margin-top: $space-2;
+}

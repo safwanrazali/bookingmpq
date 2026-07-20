@@ -3,13 +3,13 @@
 .navbar {
   background: transparent;
   transition: background 200ms ease, box-shadow 200ms ease, backdrop-filter 200ms ease;
-  // padding: $space-1 0;
+  padding: $space-3 0;
   z-index: $z-navbar;
 
   &.scrolled {
     @include glass-surface(0.82);
     box-shadow: $shadow-sm;
-    // padding: $space-2 0;
+    padding: $space-2 0;
   }
 }
 

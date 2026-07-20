@@ -5,7 +5,6 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import useScrollY from '@/hooks/useScrollY';
 import styles from './Navbar.module.scss';
-import Logo from '../Logo/logo';
 
 const NAV_LINKS = [
   { href: '/#how-it-works', label: 'How it works' },
@@ -33,7 +32,8 @@ export default function Navbar() {
           className={styles.brand}
           onClick={() => setExpanded(false)}
         >
-          <Logo />
+          <span className={styles.brandMark} aria-hidden="true" />
+          BookMy<span className="gradient-brand-text">Slot</span>
         </Link>
 
         <BsNavbar.Toggle aria-controls="main-nav" className={styles.toggle} />

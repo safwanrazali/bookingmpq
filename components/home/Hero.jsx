@@ -47,7 +47,7 @@ export default function Hero() {
             </div>
 
             <button type="button" className={`${styles.slot} ${styles.slotTaken}`} disabled>
-              <span>9:00 AM</span>
+              <span>10:00 AM</span>
               <span className={styles.slotStatus}>Booked</span>
             </button>
 

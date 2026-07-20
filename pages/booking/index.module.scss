@@ -1,0 +1,70 @@
+.page {
+  padding: ($space-8 + $space-3) 0 $space-8;
+}
+
+.intro {
+  max-width: 60ch;
+  margin-bottom: $space-5;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 $space-2;
+  color: $color-text;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: $color-text-muted;
+  margin: 0 0 $space-4;
+  line-height: 1.6;
+}
+
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-4;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-2;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgba($color-text, 0.35);
+  }
+}
+
+.stepActive {
+  color: $color-primary !important;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-5;
+  align-items: start;
+
+  @include respond(lg) {
+    grid-template-columns: 0.9fr 1.1fr;
+  }
+}
+
+.calendarCol {
+  position: sticky;
+  top: $space-8;
+
+  @include respond(lg) {
+    top: $space-7;
+  }
+}
+
+.detailsCol {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}

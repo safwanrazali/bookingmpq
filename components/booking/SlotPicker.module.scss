@@ -1,0 +1,118 @@
+.panel {
+  @include card-surface($radius-lg, $shadow-sm);
+  border: 1px solid rgba($color-text, 0.06);
+  padding: $space-4;
+}
+
+.heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: $space-3;
+  flex-wrap: wrap;
+  gap: $space-2;
+}
+
+.label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: $color-text-muted;
+}
+
+.date {
+  font-family: $font-display;
+  font-weight: 700;
+  font-size: 1rem;
+  color: $color-text;
+}
+
+.slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: $space-3;
+}
+
+.slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  padding: $space-3 $space-4;
+  border-radius: $radius-md;
+  border: 1px solid rgba($color-text, 0.1);
+  background: $color-surface;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: $color-text;
+  @include smooth-transition(all, 150ms);
+  @include focus-ring;
+
+  &:hover:not(:disabled) {
+    border-color: $color-primary;
+    background: rgba($color-primary, 0.05);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.slotTaken {
+  background: rgba($color-text, 0.04);
+  color: $color-text-muted;
+  text-decoration: line-through;
+}
+
+.slotSelected {
+  background: $gradient-brand;
+  border-color: transparent;
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    background: $gradient-brand;
+    border-color: transparent;
+  }
+}
+
+.slotTag {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: $color-text-muted;
+}
+
+.empty {
+  font-size: 0.9375rem;
+  color: $color-text-muted;
+  padding: $space-3 0;
+}
+
+.skeletonRow {
+  display: flex;
+  gap: $space-3;
+}
+
+.skeletonPill {
+  flex: 1;
+  height: 46px;
+  border-radius: $radius-md;
+  background: linear-gradient(
+    90deg,
+    rgba($color-text, 0.04) 25%,
+    rgba($color-text, 0.08) 37%,
+    rgba($color-text, 0.04) 63%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}

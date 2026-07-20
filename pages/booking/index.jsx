@@ -1,193 +1,129 @@
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
+import axios from 'axios';
+import { endOfMonth, startOfMonth } from 'date-fns';
+import { CalendarDays, Clock3, UserRound } from 'lucide-react';
 import MainLayout from '@/layouts/MainLayout';
-import styles from '@/styles/BookingForm.module.scss';
+import BookingCalendar from '@/components/booking/BookingCalendar';
+import SlotPicker from '@/components/booking/SlotPicker';
+import BookingForm from '@/components/booking/BookingForm';
+import useAvailability from '@/hooks/useAvailability';
+import { toDateKey } from '@/lib/dateUtils';
+import styles from './index.module.scss';
 
-const bookingSchema = yup.object().shape({
-  fullName: yup.string().required('Full name is required').min(2, 'Full name must be at least 2 characters'),
-  agency: yup.string().required('Agency/Organization is required').min(2, 'Agency/Organization must be at least 2 characters'),
-  email: yup.string().email('Invalid email address').required('Email is required'),
-  contactNumber: yup.string().matches(/^[0-9\-\+\s()]*$/, 'Invalid contact number'),
-  address: yup.string(),
-  notes: yup.string(),
-});
+const DEFAULT_SLOTS = ['10:00 AM', '02:00 PM'];
 
 function BookingPage() {
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState('');
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
-    resolver: yupResolver(bookingSchema),
-  });
+  const [currentMonth, setCurrentMonth] = useState(() => startOfMonth(new Date()));
+  const [selectedDateKey, setSelectedDateKey] = useState(null);
+  const [selectedTime, setSelectedTime] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [serverError, setServerError] = useState(null);
 
-  const onSubmit = async (data) => {
-    setIsSubmitting(true);
-    setSubmitError('');
+  const rangeStart = useMemo(() => toDateKey(startOfMonth(currentMonth)), [currentMonth]);
+  const rangeEnd = useMemo(() => toDateKey(endOfMonth(currentMonth)), [currentMonth]);
+
+  const { data, loading, refetch } = useAvailability(rangeStart, rangeEnd);
+
+  const bookingSlots = data?.bookingSlots ?? DEFAULT_SLOTS;
+  const daysMap = data?.days ?? {};
+  const takenTimes = selectedDateKey ? daysMap[selectedDateKey] ?? [] : [];
+
+  const activeStep = !selectedDateKey ? 1 : !selectedTime ? 2 : 3;
+
+  function handleSelectDate(dateKey) {
+    setSelectedDateKey(dateKey);
+    setSelectedTime(null);
+    setServerError(null);
+  }
+
+  function handleSelectTime(time) {
+    setSelectedTime(time);
+    setServerError(null);
+  }
+
+  async function handleSubmit(details) {
+    setSubmitting(true);
+    setServerError(null);
 
     try {
-      const response = await fetch('/api/bookings/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+      const { data: booking } = await axios.post('/api/bookings', {
+        ...details,
+        appointmentDate: selectedDateKey,
+        appointmentTime: selectedTime,
       });
+      router.push(`/booking/success?id=${booking.bookingId}`);
+    } catch (err) {
+      const message =
+        err?.response?.data?.error || 'Something went wrong. Please try again.';
+      setServerError(message);
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Failed to create booking');
+      // The slot was likely just taken by someone else - refresh availability
+      // and drop the stale selection so the picker reflects reality.
+      if (err?.response?.status === 409) {
+        setSelectedTime(null);
+        refetch();
       }
-
-      reset();
-      router.push('/booking/success');
-    } catch (error) {
-      setSubmitError(error.message || 'An error occurred. Please try again.');
-      console.error('Booking submission error:', error);
     } finally {
-      setIsSubmitting(false);
+      setSubmitting(false);
     }
-  };
+  }
 
   return (
-    <main id="main-content" className={styles.bookingPage}>
-     
+    <main id="main-content" className={styles.page}>
+      <div className="container">
+        <div className={styles.intro}>
+          <h1 className={styles.title}>Book an Appointment</h1>
+          <p className={styles.subtitle}>
+            Select a date, pick an open time, and share a few details — you&apos;ll get
+            an instant confirmation.
+          </p>
 
-      <div className="container py-5">
-        <div className={styles.formContainer}>
-          <div className={styles.header}>
-            <h1>Book an Appointment</h1>
-            <p className={styles.subtitle}>Please fill in your details below to schedule an appointment</p>
+          <ol className={styles.steps}>
+            <li className={activeStep >= 1 ? styles.stepActive : ''}>
+              <CalendarDays size={16} /> Select date
+            </li>
+            <li className={activeStep >= 2 ? styles.stepActive : ''}>
+              <Clock3 size={16} /> Select time
+            </li>
+            <li className={activeStep >= 3 ? styles.stepActive : ''}>
+              <UserRound size={16} /> Your details
+            </li>
+          </ol>
+        </div>
+
+        <div className={styles.layout}>
+          <div className={styles.calendarCol}>
+            <BookingCalendar
+              currentMonth={currentMonth}
+              onMonthChange={setCurrentMonth}
+              selectedDateKey={selectedDateKey}
+              onSelectDate={handleSelectDate}
+              daysMap={daysMap}
+              bookingSlots={bookingSlots}
+              loading={loading}
+            />
           </div>
 
-          {submitError && (
-            <div className={`alert alert-danger ${styles.alert}`} role="alert">
-              {submitError}
-            </div>
-          )}
+          <div className={styles.detailsCol}>
+            <SlotPicker
+              selectedDateKey={selectedDateKey}
+              bookingSlots={bookingSlots}
+              takenTimes={takenTimes}
+              selectedTime={selectedTime}
+              onSelectTime={handleSelectTime}
+              loading={loading}
+            />
 
-          <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-            {/* Full Name */}
-            <div className={styles.formGroup}>
-              <label htmlFor="fullName" className={styles.label}>
-                Full Name <span className={styles.required}>*</span>
-              </label>
-              <input
-                id="fullName"
-                type="text"
-                placeholder="Enter your full name"
-                className={`form-control ${errors.fullName ? 'is-invalid' : ''}`}
-                {...register('fullName')}
-              />
-              {errors.fullName && (
-                <div className={styles.errorMessage}>{errors.fullName.message}</div>
-              )}
-            </div>
-
-            {/* Agency/Organization */}
-            <div className={styles.formGroup}>
-              <label htmlFor="agency" className={styles.label}>
-                Agency/Organization <span className={styles.required}>*</span>
-              </label>
-              <input
-                id="agency"
-                type="text"
-                placeholder="Enter your agency or organization name"
-                className={`form-control ${errors.agency ? 'is-invalid' : ''}`}
-                {...register('agency')}
-              />
-              {errors.agency && (
-                <div className={styles.errorMessage}>{errors.agency.message}</div>
-              )}
-            </div>
-
-            {/* Email */}
-            <div className={styles.formGroup}>
-              <label htmlFor="email" className={styles.label}>
-                Email <span className={styles.required}>*</span>
-              </label>
-              <input
-                id="email"
-                type="email"
-                placeholder="Enter your email address"
-                className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-                {...register('email')}
-              />
-              {errors.email && (
-                <div className={styles.errorMessage}>{errors.email.message}</div>
-              )}
-            </div>
-
-            {/* Contact Number */}
-            <div className={styles.formGroup}>
-              <label htmlFor="contactNumber" className={styles.label}>
-                Contact Number
-              </label>
-              <input
-                id="contactNumber"
-                type="tel"
-                placeholder="Enter your contact number"
-                className={`form-control ${errors.contactNumber ? 'is-invalid' : ''}`}
-                {...register('contactNumber')}
-              />
-              {errors.contactNumber && (
-                <div className={styles.errorMessage}>{errors.contactNumber.message}</div>
-              )}
-            </div>
-
-            {/* Address */}
-            <div className={styles.formGroup}>
-              <label htmlFor="address" className={styles.label}>
-                Address
-              </label>
-              <textarea
-                id="address"
-                placeholder="Enter your address"
-                rows="3"
-                className={`form-control ${errors.address ? 'is-invalid' : ''}`}
-                {...register('address')}
-              />
-              {errors.address && (
-                <div className={styles.errorMessage}>{errors.address.message}</div>
-              )}
-            </div>
-
-            {/* Notes */}
-            <div className={styles.formGroup}>
-              <label htmlFor="notes" className={styles.label}>
-                Additional Notes
-              </label>
-              <textarea
-                id="notes"
-                placeholder="Any additional information for your booking"
-                rows="3"
-                className={`form-control ${errors.notes ? 'is-invalid' : ''}`}
-                {...register('notes')}
-              />
-              {errors.notes && (
-                <div className={styles.errorMessage}>{errors.notes.message}</div>
-              )}
-            </div>
-
-            {/* Submit Button */}
-            <div className={styles.formActions}>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Booking...' : 'Book Appointment'}
-              </button>
-            </div>
-          </form>
+            <BookingForm
+              disabled={!selectedDateKey || !selectedTime}
+              submitting={submitting}
+              serverError={serverError}
+              onSubmit={handleSubmit}
+            />
+          </div>
         </div>
       </div>
     </main>

@@ -10,11 +10,10 @@
     "seed:admin": "node scripts/seedAdmin.js"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.9.1",
     "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.3.3",
-    "date-fns": "^2.30.0",
+    "date-fns": "^3.6.0",
     "date-fns-tz": "^2.0.1",
     "lucide-react": "^0.469.0",
     "mongoose": "^8.9.5",
@@ -25,9 +24,10 @@
     "react-bootstrap": "^2.10.7",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.2",
-    "sass": "^1.83.4",
+    "@hookform/resolvers": "^3.9.1",
+    "yup": "^1.6.1",
     "xlsx": "^0.18.5",
-    "yup": "^1.6.1"
+    "sass": "^1.83.4"
   },
   "devDependencies": {
     "dotenv": "^16.4.7",

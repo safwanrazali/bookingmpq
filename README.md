@@ -1,7 +1,65 @@
-# Appointment Booking Platform — Phase 1: Foundation
+# Appointment Booking Platform — Phases 1–3
 
-This is Phase 1 of 5. It sets up the project skeleton so Phases 2–5 (layouts/homepage,
-booking flow, admin dashboard, Excel export + deployment) can be built on solid ground.
+Phase 1 (foundation), Phase 2 (layouts/homepage), and Phase 3 (booking flow) are
+complete. Phases 4–5 (admin dashboard, Excel export + deployment) build on this.
+
+## What's included in Phase 3
+
+| Area | Files | Notes |
+|---|---|---|
+| Date/timezone helpers | `lib/timezone.js`, `lib/dateUtils.js` | Single `APP_TIMEZONE` source of truth; date-key helpers used by client and server alike |
+| Validation | `lib/validation/bookingSchema.js` | `bookingDetailsSchema` (client form) + `bookingSchema` (full server payload) — same rules enforced on both sides |
+| Domain logic | `services/bookingService.js` | Availability calculation + `createBooking()` (the layer-2 double-booking re-check) |
+| APIs | `pages/api/bookings/availability.js`, `pages/api/bookings/index.js`, `pages/api/bookings/[bookingId].js` | Range availability, guest booking creation, single-booking lookup for the confirmation page |
+| Booking UI | `components/booking/*`, `pages/booking/index.jsx` | Calendar → slot picker → React Hook Form, in one flow |
+| Confirmation | `pages/booking/success.jsx` | Fetches the booking by its (unguessable) `bookingId` and shows a summary |
+
+## Architecture decisions
+
+**Why availability is fetched as a range, not per-day.** The calendar needs to know,
+for every visible day, whether it's fully booked (to grey it out) — fetching that
+one day at a time would mean 30-plus requests per month view. `GET
+/api/bookings/availability?from=...&to=...` returns only the *taken* times per date
+in a single query; the client derives "open" slots as `bookingSlots - taken`, so the
+list of slots that exist at all always comes from `Settings`, not from the
+availability response itself.
+
+**Where each double-booking layer actually lives now:**
+1. **Frontend** — `SlotPicker` disables any time already present in that date's
+   taken-times list, sourced from the availability fetch.
+2. **Backend** — `services/bookingService.js#createBooking()` re-queries for an
+   existing non-cancelled booking on that exact date+time immediately before
+   inserting, and returns the specified message if one exists.
+3. **Database** — the partial unique index from Phase 1 is the final backstop. If a
+   second request slips past layer 2 in the race-condition window, MongoDB's
+   duplicate-key error (`11000`) is caught in the same function and turned into the
+   identical user-facing message — the client can't tell which layer caught it.
+
+**Why the booking form only collects personal details, not date/time.** `BookingForm`
+validates against `bookingDetailsSchema` (name/email/phone/organization/purpose)
+only; the date and time come from state set by the calendar and slot picker
+earlier in the flow. The full `bookingSchema` (adding `appointmentDate` +
+`appointmentTime`) is what the *server* validates against — so the server is never
+trusting client-assembled state for the fields that matter most for the
+double-booking guarantee.
+
+**Why the confirmation page re-fetches instead of reading query params directly.**
+`/booking/success?id=<bookingId>` only carries the public `bookingId` (a UUID) in
+the URL. The page calls `GET /api/bookings/[bookingId]` to load the authoritative
+record — this means a stale or tampered-with query string can't misrepresent what
+was actually saved, and it keeps the URL shareable/bookmarkable without leaking
+anything beyond an unguessable identifier.
+
+**Why calendar dates are compared as local `Date` objects instead of real
+timestamps.** `dateKeyToLocalDate()` turns a `'YYYY-MM-DD'` key into a plain JS
+`Date` at local midnight, used only for calendar-grid math (which weekday, is it
+before today, is it in the displayed month). It's never used as a real-world
+instant, so there's no timezone conversion to get wrong — the actual timezone
+guarantee comes from `toDateKey()`, which always formats through `APP_TIMEZONE`.
+
+---
+
+# Phase 1 — Foundation
 
 ## What's included in Phase 1
 
@@ -82,15 +140,10 @@ Verify the database connection any time at `GET /api/health`.
 
 ## Coming in later phases
 
-- **Phase 2** — Layout system (`layouts/`), Navbar, Footer, full Calendly/Linear/Stripe-
-  inspired homepage (Hero, How It Works, Available Slots Overview, Features, FAQ,
-  Contact, Footer), with SCSS Modules per component.
-- **Phase 3** — Booking page (calendar + slots + React Hook Form + Yup), availability
-  API, booking creation API with the layer-2 backend re-check described above.
 - **Phase 4** — Admin dashboard shell (top nav + collapsible drawer), bookings CRUD,
   team members CRUD.
 - **Phase 5** — Excel export (`xlsx` package) and Vercel deployment prep
   (environment variables, build checks, MongoDB Atlas network access).
 
 ---
-*Say "continue with Phase 2" whenever you're ready.*
+*Say "continue with Phase 4" whenever you're ready.*

@@ -10,7 +10,7 @@ const FAQS = [
   {
     question: 'How many appointment slots are available per day?',
     answer:
-      'Two by default: 9:00 AM and 02:00 PM. Admins can add, remove, or change slots at any time from the settings page.',
+      'Two by default: 10:00 AM and 02:00 PM. Admins can add, remove, or change slots at any time from the settings page.',
   },
   {
     question: 'What happens if two people try to book the same slot?',
