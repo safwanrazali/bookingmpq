@@ -1,0 +1,225 @@
+@import './variables.scss';
+@import './mixins.scss';
+
+.bookingPage {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding-bottom: 60px;
+}
+
+.banner {
+  width: 100%;
+  background-color: #fff;
+  padding: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+
+  .bannerImage {
+    width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    display: block;
+  }
+}
+
+.formContainer {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+
+  @media (max-width: 768px) {
+    padding: 30px 20px;
+    max-width: 100%;
+    border-radius: 8px;
+  }
+}
+
+.header {
+  margin-bottom: 30px;
+  text-align: center;
+
+  h1 {
+    font-size: 28px;
+    font-weight: 600;
+    color: $color-primary;
+    margin-bottom: 10px;
+
+    @media (max-width: 768px) {
+      font-size: 24px;
+    }
+  }
+}
+
+.subtitle {
+  color: #6c757d;
+  font-size: 16px;
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup {
+  margin-bottom: 24px;
+
+  &:last-of-type {
+    margin-bottom: 32px;
+  }
+}
+
+.label {
+  display: block;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 8px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.required {
+  color: #dc3545;
+  margin-left: 4px;
+  font-weight: 700;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  font-family: inherit;
+
+  &:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: $color-primary;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
+  }
+
+  &.is-invalid {
+    border-color: #dc3545;
+
+    &:focus {
+      border-color: #dc3545;
+      box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    }
+  }
+
+  &::placeholder {
+    color: #adb5bd;
+    opacity: 1;
+  }
+
+  &:disabled {
+    background-color: #e9ecef;
+    opacity: 1;
+  }
+
+  &[type='email'],
+  &[type='tel'],
+  &[type='text'] {
+    &:autofill {
+      -webkit-autofill: none;
+      -webkit-autofill-text-fill-color: #495057;
+      background-color: #fff !important;
+    }
+  }
+}
+
+.errorMessage {
+  color: #dc3545;
+  font-size: 13px;
+  margin-top: 6px;
+  display: block;
+}
+
+.alert {
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 14px;
+
+  &.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+  }
+
+  &.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+  }
+}
+
+.formActions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+
+  .btn {
+    flex: 1;
+    max-width: 300px;
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    &.btn-primary {
+      background-color: $color-primary;
+      color: #fff;
+
+      &:hover:not(:disabled) {
+        background-color: darken($color-primary, 5%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+      }
+
+      &:active:not(:disabled) {
+        transform: translateY(0);
+      }
+
+      &:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+      }
+    }
+
+    &.btn-secondary {
+      background-color: #6c757d;
+      color: #fff;
+
+      &:hover:not(:disabled) {
+        background-color: #5a6268;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    flex-direction: column;
+
+    .btn {
+      max-width: 100%;
+    }
+  }
+}

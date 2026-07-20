@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import styles from './Footer.module.scss';
+import Logo from '../Logo/logo';
 
 const year = new Date().getFullYear();
 
@@ -10,8 +11,8 @@ export default function Footer() {
       <div className={`container ${styles.inner}`}>
         <div className={styles.grid}>
           <div className={styles.brandCol}>
-            <Link href="/" className={styles.brand}>
-              BookMy<span className="gradient-brand-text">Slot</span>
+            <Link href="/" >
+              <Logo />
             </Link>
             <p className={styles.tagline}>
               A calmer way to schedule time with our team — no account,
