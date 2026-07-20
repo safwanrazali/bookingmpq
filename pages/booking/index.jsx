@@ -59,10 +59,7 @@ function BookingPage() {
 
   return (
     <main id="main-content" className={styles.bookingPage}>
-      {/* Banner */}
-      <div className={styles.banner}>
-        <img src="/ptpkm-nacsa-banner.png" alt="PTPKM NACSA" className={styles.bannerImage} />
-      </div>
+     
 
       <div className="container py-5">
         <div className={styles.formContainer}>
