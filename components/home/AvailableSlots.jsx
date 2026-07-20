@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { format, addDays } from 'date-fns';
 import styles from './AvailableSlots.module.scss';
 
-const SLOT_TIMES = ['10:00 AM', '02:00 PM'];
+const SLOT_TIMES = ['9:00 AM', '02:00 PM'];
 
 /**
  * Builds a 7-day illustrative preview. Every 3rd day has its morning slot

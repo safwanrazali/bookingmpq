@@ -7,7 +7,7 @@ const STEPS = [
     icon: CalendarDays,
     title: 'Pick a date & slot',
     description:
-      'Browse open dates on the calendar. Only two slots are offered per day — 10:00 AM and 02:00 PM — so booked slots disappear instantly.',
+      'Browse open dates on the calendar. Only two slots are offered per day — 9:00 AM and 02:00 PM — so booked slots disappear instantly.',
   },
   {
     number: '02',

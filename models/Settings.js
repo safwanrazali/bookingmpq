@@ -16,8 +16,8 @@ const SettingsSchema = new Schema(
       trim: true,
     },
     bookingSlots: {
-      type: [String], // e.g. ['10:00 AM', '02:00 PM']
-      default: ['10:00 AM', '02:00 PM'],
+      type: [String], // e.g. ['9:00 AM', '02:00 PM']
+      default: ['9:00 AM', '02:00 PM'],
     },
     timezone: {
       type: String,

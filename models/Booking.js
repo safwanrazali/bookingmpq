@@ -9,7 +9,7 @@ const { Schema, models, model } = mongoose;
  *   Date object. Since the whole platform operates in a single timezone
  *   (Asia/Kuala_Lumpur) this avoids UTC-shift bugs when comparing dates and
  *   makes the uniqueness index trivial to reason about.
- * - `appointmentTime` is stored exactly as displayed (e.g. "10:00 AM") since
+ * - `appointmentTime` is stored exactly as displayed (e.g. "9:00 AM") since
  *   slots are a small, admin-managed set of strings (see Settings model).
  * - Double-booking prevention (layer 3 of 3, see below) is enforced with a
  *   partial unique compound index on {appointmentDate, appointmentTime} that
@@ -69,7 +69,7 @@ const BookingSchema = new Schema(
       match: /^\d{4}-\d{2}-\d{2}$/,
     },
     appointmentTime: {
-      type: String, // e.g. '10:00 AM'
+      type: String, // e.g. '9:00 AM'
       required: true,
     },
     status: {
