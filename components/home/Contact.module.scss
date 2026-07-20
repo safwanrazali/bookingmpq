@@ -1,0 +1,101 @@
+.section {
+  padding: $space-8 0 ($space-8 + $space-4);
+}
+
+.card {
+  @include card-surface($radius-lg, $shadow-lg);
+  background: $gradient-brand;
+  color: #fff;
+  padding: $space-6;
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+
+  @include respond(lg) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: $space-7;
+  }
+}
+
+.copy {
+  max-width: 44ch;
+}
+
+.eyebrow {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: $space-2;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 $space-2;
+  color: #fff;
+}
+
+.subtitle {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 $space-4;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    font-size: 0.9375rem;
+    color: rgba(255, 255, 255, 0.92);
+  }
+}
+
+.ctaBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $space-3;
+  flex-shrink: 0;
+
+  @include respond(lg) {
+    align-items: center;
+  }
+}
+
+.ctaText {
+  font-family: $font-display;
+  font-weight: 600;
+  font-size: 1.0625rem;
+  margin: 0;
+  color: #fff;
+}
+
+.ctaButton {
+  background: #fff;
+  color: $color-primary;
+  border: none;
+  border-radius: $radius-pill;
+  padding: 0.85rem 2rem;
+  font-weight: 700;
+  white-space: nowrap;
+  @include smooth-transition(transform);
+
+  &:hover {
+    transform: translateY(-1px);
+    color: $color-primary;
+  }
+}

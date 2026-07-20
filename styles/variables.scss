@@ -44,8 +44,12 @@ $shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
 $shadow-lg: 0 24px 48px rgba(15, 23, 42, 0.12);
 
 // Typography
-$font-display: 'Cal Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+// Sora: geometric, slightly rounded display face for headlines — carries the
+// "premium SaaS" personality without leaning on generic system fonts.
+// Inter: neutral, highly legible workhorse for body copy and UI chrome.
+$font-display: 'Sora', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 $font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+$font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
 
 // Breakpoints (align with Bootstrap defaults for consistency)
 $bp-sm: 576px;

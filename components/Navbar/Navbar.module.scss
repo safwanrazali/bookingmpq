@@ -1,0 +1,99 @@
+// variables.scss + mixins.scss are auto-injected here via
+// next.config.js -> sassOptions.prependData
+.navbar {
+  background: transparent;
+  transition: background 200ms ease, box-shadow 200ms ease, backdrop-filter 200ms ease;
+  padding: $space-3 0;
+  z-index: $z-navbar;
+
+  &.scrolled {
+    @include glass-surface(0.82);
+    box-shadow: $shadow-sm;
+    padding: $space-2 0;
+  }
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-4;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  font-family: $font-display;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: $color-text;
+  white-space: nowrap;
+}
+
+.brandMark {
+  width: 10px;
+  height: 10px;
+  border-radius: $radius-pill;
+  background: $gradient-brand;
+  box-shadow: 0 0 0 4px rgba($color-primary, 0.15);
+  flex-shrink: 0;
+}
+
+.toggle {
+  border: none;
+  @include focus-ring;
+
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+  margin: $space-3 0;
+
+  @include respond(lg) {
+    margin: 0 auto;
+  }
+}
+
+.navLink {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: $color-text-muted;
+  @include smooth-transition(color);
+  @include focus-ring;
+
+  &:hover {
+    color: $color-text;
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+  flex-wrap: wrap;
+}
+
+.loginLink {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $color-text-muted;
+  @include smooth-transition(color);
+
+  &:hover {
+    color: $color-primary;
+  }
+}
+
+.cta {
+  border-radius: $radius-pill;
+  padding: 0.5rem 1.25rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border: none;
+}

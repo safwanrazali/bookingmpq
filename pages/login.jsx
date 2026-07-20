@@ -1,9 +1,11 @@
+import MainLayout from '@/layouts/MainLayout';
+
 /**
- * Admin login — placeholder for Phase 1.
+ * Admin login — placeholder for Phase 2.
  * Full NextAuth credentials form (React Hook Form + Yup) is built in Phase 4
  * alongside the rest of the admin area.
  */
-export default function LoginPage() {
+function LoginPage() {
   return (
     <main id="main-content" className="container py-5">
       <h1>Admin Login</h1>
@@ -11,3 +13,7 @@ export default function LoginPage() {
     </main>
   );
 }
+
+LoginPage.getLayout = (page) => <MainLayout>{page}</MainLayout>;
+
+export default LoginPage;

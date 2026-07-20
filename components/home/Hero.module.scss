@@ -1,0 +1,254 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: ($space-8 + $space-3) 0 $space-8;
+  isolation: isolate;
+
+  @include respond(lg) {
+    padding: ($space-8 + $space-6) 0 $space-8;
+  }
+}
+
+.blobOne,
+.blobTwo {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  z-index: -1;
+  opacity: 0.35;
+}
+
+.blobOne {
+  width: 480px;
+  height: 480px;
+  top: -180px;
+  right: -120px;
+  background: $gradient-brand;
+}
+
+.blobTwo {
+  width: 360px;
+  height: 360px;
+  bottom: -160px;
+  left: -140px;
+  background: linear-gradient(135deg, $color-success 0%, $color-primary 100%);
+  opacity: 0.2;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-7;
+  align-items: center;
+
+  @include respond(lg) {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: $space-6;
+  }
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  align-self: flex-start;
+  padding: $space-2 $space-3;
+  border-radius: $radius-pill;
+  background: rgba($color-primary, 0.08);
+  color: $color-primary;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.headline {
+  font-size: 2.25rem;
+  line-height: 1.12;
+  font-weight: 700;
+  margin: 0;
+  color: $color-text;
+
+  @include respond(md) {
+    font-size: 3rem;
+  }
+
+  @include respond(lg) {
+    font-size: 3.4rem;
+  }
+}
+
+.subhead {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: $color-text-muted;
+  max-width: 46ch;
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+  margin-top: $space-2;
+}
+
+.primaryCta {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  border-radius: $radius-pill;
+  border: none;
+  padding: 0.85rem 1.75rem;
+  font-weight: 600;
+  @include smooth-transition(transform);
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+}
+
+.secondaryCta {
+  border-radius: $radius-pill;
+  padding: 0.85rem 1.75rem;
+  font-weight: 600;
+  border: 1px solid rgba($color-text, 0.12);
+  color: $color-text;
+  background: transparent;
+  @include smooth-transition(background);
+
+  &:hover {
+    background: rgba($color-text, 0.04);
+    color: $color-text;
+  }
+}
+
+.trust {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  font-size: 0.875rem;
+  color: $color-text-muted;
+  margin-top: $space-1;
+}
+
+.trustIcon {
+  color: $color-success;
+}
+
+// ---------------------------------------------------------------------------
+// Floating slot-preview mockup
+// ---------------------------------------------------------------------------
+.mockWrap {
+  position: relative;
+  justify-self: center;
+  width: 100%;
+  max-width: 380px;
+}
+
+.mockCardBack {
+  position: absolute;
+  inset: $space-4 -#{$space-3} -#{$space-3} $space-4;
+  border-radius: $radius-lg;
+  background: linear-gradient(135deg, rgba($color-secondary, 0.16), rgba($color-primary, 0.08));
+  z-index: -1;
+}
+
+.mockCard {
+  @include glass-surface(0.75);
+  @include card-surface($radius-lg, $shadow-lg);
+  padding: $space-4;
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+
+.mockHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: $space-3;
+  border-bottom: 1px dashed rgba($color-text, 0.12);
+}
+
+.mockDate {
+  font-family: $font-display;
+  font-weight: 700;
+  font-size: 1rem;
+  color: $color-text;
+}
+
+.mockTz {
+  font-family: $font-mono;
+  font-size: 0.6875rem;
+  color: $color-text-muted;
+}
+
+.slot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border-radius: $radius-md;
+  padding: $space-3 $space-4;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border: 1px solid transparent;
+  text-align: left;
+}
+
+.slotTaken {
+  background: rgba($color-text, 0.04);
+  color: $color-text-muted;
+  cursor: not-allowed;
+}
+
+.slotOpen {
+  background: rgba($color-success, 0.08);
+  border-color: rgba($color-success, 0.3);
+  color: $color-text;
+  cursor: pointer;
+  @include smooth-transition(transform);
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+}
+
+.slotStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.pulseDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: $color-success;
+  box-shadow: 0 0 0 0 rgba($color-success, 0.6);
+  animation: pulse 2s infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba($color-success, 0.5); }
+  70% { box-shadow: 0 0 0 8px rgba($color-success, 0); }
+  100% { box-shadow: 0 0 0 0 rgba($color-success, 0); }
+}
+
+.mockFooterNote {
+  font-size: 0.75rem;
+  color: $color-text-muted;
+  text-align: center;
+  padding-top: $space-1;
+}

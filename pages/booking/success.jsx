@@ -1,4 +1,6 @@
-export default function BookingSuccessPage() {
+import MainLayout from '@/layouts/MainLayout';
+
+function BookingSuccessPage() {
   return (
     <main id="main-content" className="container py-5">
       <h1>Booking Confirmed</h1>
@@ -6,3 +8,7 @@ export default function BookingSuccessPage() {
     </main>
   );
 }
+
+BookingSuccessPage.getLayout = (page) => <MainLayout>{page}</MainLayout>;
+
+export default BookingSuccessPage;

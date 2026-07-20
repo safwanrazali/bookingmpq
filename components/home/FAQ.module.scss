@@ -1,0 +1,67 @@
+.section {
+  padding: $space-8 0;
+  background: $color-surface;
+}
+
+.header {
+  max-width: 46ch;
+  margin-bottom: $space-6;
+}
+
+.eyebrow {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: $color-primary;
+  margin-bottom: $space-2;
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin: 0;
+  color: $color-text;
+}
+
+.accordion {
+  max-width: 760px;
+
+  :global(.accordion-item) {
+    border: 1px solid rgba($color-text, 0.08);
+    border-radius: $radius-md !important;
+    overflow: hidden;
+    margin-bottom: $space-3;
+  }
+
+  :global(.accordion-button) {
+    font-family: $font-display;
+    font-weight: 600;
+    font-size: 1rem;
+    color: $color-text;
+    background: $color-surface;
+    padding: $space-4;
+    box-shadow: none;
+
+    &:not(.collapsed) {
+      color: $color-primary;
+      background: rgba($color-primary, 0.05);
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 2px rgba($color-primary, 0.25);
+    }
+
+    &::after {
+      flex-shrink: 0;
+    }
+  }
+}
+
+.body {
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: $color-text-muted;
+  padding: 0 $space-4 $space-4;
+}

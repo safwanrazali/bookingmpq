@@ -1,8 +1,10 @@
+import MainLayout from '@/layouts/MainLayout';
+
 /**
- * Booking page — placeholder for Phase 1.
+ * Booking page — placeholder for Phase 2.
  * Full calendar + slots + React Hook Form booking flow is built in Phase 3.
  */
-export default function BookingPage() {
+function BookingPage() {
   return (
     <main id="main-content" className="container py-5">
       <h1>Book an Appointment</h1>
@@ -10,3 +12,7 @@ export default function BookingPage() {
     </main>
   );
 }
+
+BookingPage.getLayout = (page) => <MainLayout>{page}</MainLayout>;
+
+export default BookingPage;
