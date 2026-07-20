@@ -1,0 +1,81 @@
+@import 'variables';
+@import 'mixins';
+
+// --------------------------------------------------------------------------
+// Bootstrap theme overrides.
+// These MUST be set before importing bootstrap's scss so its own components
+// (buttons, forms, cards, navbar, etc.) inherit our palette instead of the
+// stock Bootstrap blue/gray theme.
+// --------------------------------------------------------------------------
+$primary: $color-primary;
+$secondary: $color-secondary;
+$success: $color-success;
+$danger: $color-danger;
+$body-bg: $color-background;
+$body-color: $color-text;
+$border-radius: $radius-sm;
+$border-radius-lg: $radius-md;
+$font-family-sans-serif: #{$font-body};
+$enable-shadows: false;
+$enable-negative-margins: true;
+
+@import 'bootstrap/scss/bootstrap';
+
+// --------------------------------------------------------------------------
+// Base app styles
+// --------------------------------------------------------------------------
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background-color: $color-background;
+  color: $color-text;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba($color-primary, 0.2);
+}
+
+// Reusable, app-wide utility classes (kept minimal — most styling lives in
+// SCSS Modules scoped to each component).
+.text-muted-app {
+  color: $color-text-muted;
+}
+
+.gradient-brand-text {
+  background: $gradient-brand;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.btn-primary {
+  @include focus-ring;
+}
+
+// Skip-link for keyboard/screen-reader users
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: $z-toast;
+  background: $color-surface;
+  color: $color-text;
+  padding: $space-2 $space-3;
+  border-radius: $radius-sm;
+
+  &:focus {
+    left: $space-3;
+    top: $space-3;
+  }
+}
